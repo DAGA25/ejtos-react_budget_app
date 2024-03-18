@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const AllocationForm = (props) => {
-    const { dispatch,remaining  } = useContext(AppContext);
+    const { dispatch,remaining,currency  } = useContext(AppContext);
 
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');
@@ -45,11 +45,11 @@ const AllocationForm = (props) => {
                   <select className="custom-select" id="inputGroupSelect01" onChange={(event) => setName(event.target.value)}>
                         <option defaultValue>Choose...</option>
                         <option value="Marketing" name="marketing"> Marketing</option>
-                <option value="Sales" name="sales">Sales</option>
-                <option value="Finance" name="finance">Finance</option>
-                <option value="HR" name="hr">HR</option>
-                <option value="IT" name="it">IT</option>
-                <option value="Admin" name="admin">Admin</option>
+                        <option value="Sales" name="sales">Sales</option>
+                        <option value="Finance" name="finance">Finance</option>
+                        <option value="HR" name="hr">HR</option>
+                        <option value="IT" name="it">IT</option>
+                        <option value="Admin" name="admin">Admin</option>
                   </select>
 
                     <div className="input-group-prepend" style={{ marginLeft: '2rem' }}>
@@ -57,16 +57,22 @@ const AllocationForm = (props) => {
                   </div>
                   <select className="custom-select" id="inputGroupSelect02" onChange={(event) => setAction(event.target.value)}>
                         <option defaultValue value="Add" name="Add">Add</option>
-                <option value="Reduce" name="Reduce">Reduce</option>
+                        <option value="Reduce" name="Reduce">Reduce</option>
                   </select>
-
+                    <label style={{ marginLeft: '2rem' , size: 10,marginTop: '0.5rem',marginRight:'0.5rem'}}>{currency}</label>
                     <input
                         required='required'
-                        type='number'
+                        type='text'
                         id='cost'
                         value={cost}
-                        style={{ marginLeft: '2rem' , size: 10}}
-                        onChange={(event) => setCost(event.target.value)}>
+                        style={{ size: 10}}
+                        onChange={(event) => {
+                            const numericValue = parseFloat(event.target.value);
+                            if (!isNaN(numericValue)) 
+                            {
+                              // Update state only if the entered value is a valid number
+                              setCost(numericValue);}
+                              }}>
                         </input>
 
                     <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
